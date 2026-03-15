@@ -1,0 +1,17 @@
+{
+  "name": "ResumeAI — Smart Resume Analyzer",
+  "short_name": "ResumeAI",
+  "description": "AI-powered resume analyzer.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0D0F1A",
+  "theme_color": "#7C6BFF",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

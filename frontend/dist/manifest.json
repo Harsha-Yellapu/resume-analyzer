@@ -1,0 +1,13 @@
+{
+  "name": "ResumeAI — Smart Resume Analyzer",
+  "short_name": "ResumeAI",
+  "description": "AI-powered resume analyzer. Upload your resume, get match score, skill gaps and suggestions.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0D0F1A",
+  "theme_color": "#7C6BFF",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
