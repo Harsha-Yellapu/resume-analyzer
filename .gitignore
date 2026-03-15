@@ -2,8 +2,9 @@ node_modules/
 venv/
 __pycache__/
 *.pyc
-*.pyo
 dist/
 .env
 *.db
 .DS_Store
+*.egg-info/
+.pytest_cache/
