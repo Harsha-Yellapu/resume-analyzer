@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import api from '../api'
 import ResultsPage from './ResultsPage'
 
 export default function HistoryPage() {
@@ -13,14 +13,14 @@ export default function HistoryPage() {
 
   const fetchHistory = async () => {
     setLoading(true)
-    try { const res = await axios.get('/api/history'); setHistory(res.data) }
+    try { const res = await api.get('/api/history'); setHistory(res.data) }
     catch { setHistory([]) } finally { setLoading(false) }
   }
 
   const handleRowClick = async (item) => {
     setLoadingId(item.id)
     try {
-      const res = await axios.get(`/api/history/${item.id}`)
+      const res = await api.get(`/api/history/${item.id}`)
       setSelected(res.data)
     } catch {
       setSelected({
@@ -37,13 +37,13 @@ export default function HistoryPage() {
   const handleDelete = async (e, id) => {
     e.stopPropagation()
     if (!window.confirm('Delete this analysis?')) return
-    try { await axios.delete(`/api/history/${id}`); setHistory(prev => prev.filter(h => h.id !== id)) } catch {}
+    try { await api.delete(`/api/history/${id}`); setHistory(prev => prev.filter(h => h.id !== id)) } catch {}
   }
 
   const clearHistory = async () => {
     if (!window.confirm('Clear all analysis history?')) return
     setClearing(true)
-    try { await axios.delete('/api/history'); setHistory([]); setSelected(null) } finally { setClearing(false) }
+    try { await api.delete('/api/history'); setHistory([]); setSelected(null) } finally { setClearing(false) }
   }
 
   const gc = (g) => ({'Excellent':'var(--emerald)','Good':'var(--violet-2)','Fair':'var(--amber)','Needs Work':'var(--red)'}[g]||'var(--text-3)')

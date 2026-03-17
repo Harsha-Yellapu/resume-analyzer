@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import axios from 'axios'
+import api from '../api'
 
 const FEATURES = [
   { icon:'◈', label:'Skill gap analysis',  desc:'Finds skills the JD needs that your resume is missing' },
@@ -40,7 +40,7 @@ export default function UploadPage({ onResult }) {
       fd.append('job_title', jobTitle || 'Untitled Position')
       if (inputMode === 'pdf') fd.append('resume_file', resumeFile)
       else fd.append('resume_text', resumeText)
-      const res = await axios.post('/api/analyze', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
+      const res = await api.post('/api/analyze', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
       onResult(res.data)
     } catch(err) {
       setError(err.response?.data?.error || 'Analysis failed. Make sure the backend is running on port 5000.')
