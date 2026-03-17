@@ -33,7 +33,7 @@ function Header({ page, setPage, onReset }) {
         {/* Logo */}
         <button onClick={onReset} style={{ background:'none', border:'none', cursor:'pointer', display:'flex', alignItems:'center', gap:10 }}>
          <div style={{ width:36, height:36, borderRadius:10, overflow:'hidden', boxShadow:'0 0 16px rgba(124,107,255,0.4)' }}>
-  	  <img src="/icon.png" alt="ResumeAI" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+  	  <img src="/icon.svg" alt="ResumeAI" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
 	 </div>
           <span style={{ fontFamily:'var(--font-display)', fontSize:20, fontWeight:700, color:'var(--text)', letterSpacing:'-0.02em' }}>
             Resume<span style={{ color:'var(--violet-2)' }}>AI</span>
