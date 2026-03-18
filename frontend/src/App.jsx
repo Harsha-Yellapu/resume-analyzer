@@ -10,6 +10,7 @@ import ProfilePage from './pages/ProfilePage'
 function AppContent() {
   const { user, logout } = useAuth()
   const { theme, toggleTheme } = useTheme()
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [page, setPage] = useState('upload')
   const [result, setResult] = useState(null)
 
@@ -20,7 +21,7 @@ function AppContent() {
 
   return (
     <div style={{ minHeight:'100vh' }}>
-      <Header page={page} setPage={setPage} onReset={handleReset} user={user} logout={logout} theme={theme} toggleTheme={toggleTheme} />
+      <Header page={page} setPage={setPage} onReset={handleReset} user={user} logout={logout} theme={theme} toggleTheme={toggleTheme} onLogoutClick={() => setShowLogoutConfirm(true)} />
       <main style={{ maxWidth:960, margin:'0 auto', padding:'1rem 1.5rem 5rem' }}>
         {page === 'upload'  && <UploadPage onResult={handleResult} />}
         {page === 'results' && result && <ResultsPage result={result} onReset={handleReset} />}
@@ -28,6 +29,21 @@ function AppContent() {
         {page === 'profile' && <ProfilePage />}
       </main>
     </div>
+
+    {/* Logout Confirmation Modal */}
+    {showLogoutConfirm && (
+      <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.6)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:1000 }}
+        onClick={e => e.target === e.currentTarget && setShowLogoutConfirm(false)}>
+        <div style={{ background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:16, padding:'1.5rem', width:'100%', maxWidth:360, margin:'0 1rem' }}>
+          <div style={{ fontSize:16, fontWeight:700, color:'var(--text)', marginBottom:8 }}>Log out?</div>
+          <div style={{ fontSize:13, color:'var(--text-2)', marginBottom:20 }}>Are you sure you want to log out of ResumeAI?</div>
+          <div style={{ display:'flex', gap:8 }}>
+            <button onClick={onLogoutClick} style={{ flex:1, background:'rgba(248,113,113,0.15)', border:'1px solid rgba(248,113,113,0.3)', borderRadius:8, padding:'0.7rem', color:'#f87171', fontSize:13, fontWeight:600, cursor:'pointer', fontFamily:'var(--font-body)' }}>Yes, Logout</button>
+            <button onClick={() => setShowLogoutConfirm(false)} style={{ flex:1, background:'var(--bg-3)', border:'1px solid var(--border)', borderRadius:8, padding:'0.7rem', color:'var(--text-2)', fontSize:13, cursor:'pointer', fontFamily:'var(--font-body)' }}>Cancel</button>
+          </div>
+        </div>
+      </div>
+    )}
   )
 }
 
@@ -39,7 +55,7 @@ export default function App() {
   )
 }
 
-function Header({ page, setPage, onReset, user, logout, theme, toggleTheme }) {
+function Header({ page, setPage, onReset, user, logout, theme, toggleTheme, onLogoutClick }) {
   return (
     <header style={{
       borderBottom: '1px solid var(--border)',
