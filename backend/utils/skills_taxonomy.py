@@ -1,6 +1,6 @@
 TECH_SKILLS = [
     "python", "java", "javascript", "typescript", "c++", "c#", "go", "rust",
-    "kotlin", "swift", "ruby", "php", "scala", "r", "matlab", "dart",
+    "kotlin", "swift", "ruby", "php", "scala", "r language", "matlab", "dart",
     "react", "angular", "vue", "nextjs", "nuxtjs", "svelte", "html", "css",
     "tailwind", "bootstrap", "sass", "webpack", "vite", "redux", "graphql",
     "node", "express", "django", "flask", "fastapi", "spring", "rails",

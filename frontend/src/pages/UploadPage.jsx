@@ -1,5 +1,8 @@
 import { useState, useRef } from 'react'
 import api from '../api'
+import { db } from '../firebase'
+import { useAuth } from '../context/AuthContext'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 
 const FEATURES = [
   { icon:'◈', label:'Skill gap analysis',  desc:'Finds skills the JD needs that your resume is missing' },
@@ -10,6 +13,7 @@ const FEATURES = [
 ]
 
 export default function UploadPage({ onResult }) {
+  const { user } = useAuth()
   const [resumeFile, setResumeFile] = useState(null)
   const [resumeText, setResumeText] = useState('')
   const [jdText, setJdText]         = useState('')
@@ -42,6 +46,20 @@ export default function UploadPage({ onResult }) {
       else fd.append('resume_text', resumeText)
       const res = await api.post('/api/analyze', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
       onResult(res.data)
+      if (user) {
+        try {
+          await addDoc(collection(db, 'users', user.uid, 'history'), {
+            job_title: res.data.meta?.job_title || 'Untitled',
+            score: res.data.score,
+            grade: res.data.grade,
+            matched_skills: res.data.skills?.matched || [],
+            missing_skills: res.data.skills?.missing || [],
+            suggestions_count: res.data.suggestions?.length || 0,
+            full_result: JSON.stringify(res.data),
+            created_at: serverTimestamp()
+          })
+        } catch(e) { console.error('Firestore save error:', e) }
+      }
     } catch(err) {
       setError(err.response?.data?.error || 'Analysis failed. Make sure the backend is running on port 5000.')
     } finally { setLoading(false) }
