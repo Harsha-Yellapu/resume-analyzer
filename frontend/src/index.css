@@ -209,3 +209,31 @@ input::placeholder, textarea::placeholder { color: var(--text-3) !important; }
 .grade-good      { color: var(--violet-2); }
 .grade-fair      { color: var(--amber); }
 .grade-needswork { color: var(--red); }
+
+/* ── Light Mode ──────────────────────────────────────── */
+body.light {
+  --bg:        #F4F6FF;
+  --bg-2:      #ECEEF8;
+  --bg-3:      #E4E7F5;
+  --bg-card:   #FFFFFF;
+  --bg-hover:  #DDE0F0;
+
+  --border:    rgba(0,0,0,0.08);
+  --border-2:  rgba(0,0,0,0.14);
+
+  --text:      #0D0F1A;
+  --text-2:    #3D4466;
+  --text-3:    #7B82AA;
+
+  --violet-glow: rgba(124,107,255,0.15);
+  --cyan-glow: rgba(34,211,238,0.15);
+}
+
+body.light::before {
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(124,107,255,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(34,211,238,0.05) 0%, transparent 60%);
+}
+
+body.light ::-webkit-scrollbar-track { background: var(--bg-2); }
+body.light ::-webkit-scrollbar-thumb { background: var(--border-2); }

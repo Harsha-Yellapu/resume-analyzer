@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { AuthProvider, useAuth } from './context/AuthContext'
+import { useTheme } from './hooks/useTheme'
 import LoginPage from './pages/LoginPage'
 import UploadPage from './pages/UploadPage'
 import ResultsPage from './pages/ResultsPage'
@@ -8,6 +9,7 @@ import ProfilePage from './pages/ProfilePage'
 
 function AppContent() {
   const { user, logout } = useAuth()
+  const { theme, toggleTheme } = useTheme()
   const [page, setPage] = useState('upload')
   const [result, setResult] = useState(null)
 
@@ -18,7 +20,7 @@ function AppContent() {
 
   return (
     <div style={{ minHeight:'100vh' }}>
-      <Header page={page} setPage={setPage} onReset={handleReset} user={user} logout={logout} />
+      <Header page={page} setPage={setPage} onReset={handleReset} user={user} logout={logout} theme={theme} toggleTheme={toggleTheme} />
       <main style={{ maxWidth:960, margin:'0 auto', padding:'1rem 1.5rem 5rem' }}>
         {page === 'upload'  && <UploadPage onResult={handleResult} />}
         {page === 'results' && result && <ResultsPage result={result} onReset={handleReset} />}
@@ -37,10 +39,10 @@ export default function App() {
   )
 }
 
-function Header({ page, setPage, onReset, user, logout }) {
+function Header({ page, setPage, onReset, user, logout, theme, toggleTheme }) {
   return (
     <header style={{
-      borderBottom: '1px solid rgba(255,255,255,0.06)',
+      borderBottom: '1px solid var(--border)',
       background: 'rgba(13,15,26,0.85)',
       backdropFilter: 'blur(16px)',
       position: 'sticky', top: 0, zIndex: 100,
@@ -56,25 +58,36 @@ function Header({ page, setPage, onReset, user, logout }) {
           </span>
         </button>
 
-        <div style={{ display:'flex', alignItems:'center', gap:12 }}>
+        <div style={{ display:'flex', alignItems:'center', gap:10 }}>
           <nav style={{ display:'flex', gap:4, background:'var(--bg-3)', padding:4, borderRadius:10, border:'1px solid var(--border)' }}>
             {[['upload','Analyze'],['history','History'],['profile','Profile']].map(([id,label]) => (
               <button key={id} onClick={() => id==='upload' ? onReset() : setPage(id)} style={{
                 background: page===id ? 'linear-gradient(135deg, var(--violet), #5B4FD6)' : 'transparent',
                 color: page===id ? 'white' : 'var(--text-3)',
-                border: 'none', borderRadius: 7, padding: '6px 18px',
+                border: 'none', borderRadius: 7, padding: '6px 16px',
                 fontSize: 13, fontWeight: 500, cursor: 'pointer',
-                fontFamily: 'var(--font-body)', transition: 'all 0.2s',
+                transition: 'all 0.2s',
                 boxShadow: page===id ? '0 2px 12px rgba(124,107,255,0.35)' : 'none'
               }}>{label}</button>
             ))}
           </nav>
 
+          {/* Theme Toggle */}
+          <button onClick={toggleTheme} style={{
+            background: 'var(--bg-3)', border: '1px solid var(--border)',
+            borderRadius: 8, width: 36, height: 36,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', fontSize: 16
+          }}>
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
+
+          {/* User */}
           <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-            <span style={{ fontSize:12, color:'rgba(255,255,255,0.4)' }}>{user.email}</span>
+            <span style={{ fontSize:12, color:'var(--text-3)' }}>{user.email?.split('@')[0]}</span>
             <button onClick={logout} style={{
-              background:'rgba(255,255,255,0.07)', border:'1px solid rgba(255,255,255,0.15)',
-              borderRadius:7, padding:'6px 14px', color:'rgba(255,255,255,0.7)',
+              background:'var(--bg-3)', border:'1px solid var(--border)',
+              borderRadius:7, padding:'6px 12px', color:'var(--text-2)',
               fontSize:12, cursor:'pointer'
             }}>Logout</button>
           </div>
