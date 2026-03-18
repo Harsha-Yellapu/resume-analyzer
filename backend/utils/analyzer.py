@@ -143,13 +143,17 @@ def compute_final_score(tfidf_score: float, keyword_score: float,
       - Section completeness:   15%
       - ATS friendliness:       10%
     """
+    base = 10
     score = (
-        tfidf_score   * 25 +
-        keyword_score * 50 +
-        section_score * 15 +
-        (ats_score / 100) * 10
+        base +
+        tfidf_score   * 30 +
+        keyword_score * 40 +
+        section_score * 12 +
+        (ats_score / 100) * 8
     )
-    return min(int(score), 99)
+    # bonus for having extra relevant skills
+    score = min(score * 1.08, 99)
+    return int(score)
 
 def generate_suggestions(missing_skills, ats_tips, missing_sections, match_score) -> list:
     suggestions = []
