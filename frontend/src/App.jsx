@@ -13,10 +13,11 @@ function AppContent() {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [page, setPage] = useState('upload')
   const [result, setResult] = useState(null)
+  const [analysisTexts, setAnalysisTexts] = useState({ resumeText: '', jdText: '' })
 
   if (!user) return <LoginPage />
 
-  const handleResult = (data) => { setResult(data); setPage('results') }
+  const handleResult = (data, resumeText, jdText) => { setResult(data); setAnalysisTexts({ resumeText, jdText }); setPage('results') }
   const handleReset  = () => { setResult(null); setPage('upload') }
 
   return (
@@ -24,7 +25,7 @@ function AppContent() {
       <Header page={page} setPage={setPage} onReset={handleReset} user={user} logout={() => setShowLogoutConfirm(true)} theme={theme} toggleTheme={toggleTheme} />
       <main style={{ maxWidth:960, margin:'0 auto', padding:'1rem 1.5rem 5rem' }}>
         {page === 'upload'  && <UploadPage onResult={handleResult} />}
-        {page === 'results' && result && <ResultsPage result={result} onReset={handleReset} />}
+        {page === 'results' && result && <ResultsPage result={result} onReset={handleReset} resumeText={analysisTexts.resumeText} jdText={analysisTexts.jdText} />}
         {page === 'history' && <HistoryPage />}
         {page === 'profile' && <ProfilePage />}
       </main>

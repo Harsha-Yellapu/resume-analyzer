@@ -1,10 +1,11 @@
 import ScoreCircle from '../components/ScoreCircle'
+import AISuggestions from '../components/AISuggestions'
 import BreakdownBars from '../components/BreakdownBars'
 import SkillsPanel from '../components/SkillsPanel'
 import SuggestionsPanel from '../components/SuggestionsPanel'
 import SectionsPanel from '../components/SectionsPanel'
 
-export default function ResultsPage({ result, onReset, fromHistory = false }) {
+export default function ResultsPage({ result, onReset, fromHistory = false, resumeText = '', jdText = '' }) {
   const { score, grade, grade_color, breakdown, skills, sections, ats, suggestions, meta } = result
 
   const gradeConfig = {
@@ -76,6 +77,13 @@ export default function ResultsPage({ result, onReset, fromHistory = false }) {
       <div className="animate-fade-up stagger-4">
         <SuggestionsPanel suggestions={suggestions} />
       </div>
+
+      {/* AI Suggestions */}
+      {!fromHistory && resumeText && jdText && (
+        <div className="animate-fade-up stagger-5">
+          <AISuggestions resumeText={resumeText} jdText={jdText} score={score} />
+        </div>
+      )}
 
       {/* Contact info */}
       {meta?.contact_info && Object.values(meta.contact_info).some(v => v.length > 0) && (

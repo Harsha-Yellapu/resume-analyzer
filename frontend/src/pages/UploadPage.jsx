@@ -45,7 +45,7 @@ export default function UploadPage({ onResult }) {
       if (inputMode === 'pdf') fd.append('resume_file', resumeFile)
       else fd.append('resume_text', resumeText)
       const res = await api.post('/api/analyze', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
-      onResult(res.data)
+      onResult(res.data, resumeText || "", jdText || "")
       if (user) {
         try {
           await addDoc(collection(db, 'users', user.uid, 'history'), {
