@@ -129,3 +129,49 @@ def clear_history():
 if __name__ == '__main__':
     print("Starting Resume Analyzer API on http://localhost:5000")
     app.run(debug=True, port=5000)
+
+import google.generativeai as genai
+
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+
+@app.route('/api/ai-suggestions', methods=['POST'])
+def ai_suggestions():
+    resume_text = request.form.get('resume_text', '').strip()
+    jd_text = request.form.get('jd_text', '').strip()
+    score = request.form.get('score', '0')
+    
+    if not resume_text or not jd_text:
+        return jsonify({"error": "Resume and job description are required"}), 400
+    
+    try:
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        prompt = f"""You are an expert resume coach. Analyze this resume against the job description and give exactly 5 specific, actionable suggestions to improve the resume match.
+
+Job Description:
+{jd_text[:2000]}
+
+Resume:
+{resume_text[:3000]}
+
+Current match score: {score}%
+
+Respond ONLY with a JSON array of 5 objects, each with these fields:
+- "title": short title (max 8 words)
+- "detail": specific explanation (max 30 words)
+- "action": exact action to take (max 30 words)
+- "priority": "high", "medium", or "low"
+- "category": one of "Skills Gap", "Structure", "ATS Optimization", "Content", "Keywords"
+
+Return ONLY the JSON array, no other text."""
+
+        response = model.generate_content(prompt)
+        text = response.text.strip()
+        if text.startswith("```"):
+            text = text.split("```")[1]
+            if text.startswith("json"):
+                text = text[4:]
+        import json
+        suggestions = json.loads(text.strip())
+        return jsonify({"suggestions": suggestions})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
