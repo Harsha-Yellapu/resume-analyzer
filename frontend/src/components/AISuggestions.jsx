@@ -12,7 +12,7 @@ export default function AISuggestions({ resumeText, jdText, score }) {
     setError("")
     try {
       const fd = new FormData()
-      fd.append('resume_text', resumeText)
+      fd.append('resume_text', resumeText || 'Resume text not available - use job description only')
       fd.append('jd_text', jdText)
       fd.append('score', score)
       const res = await api.post('/api/ai-suggestions', fd)

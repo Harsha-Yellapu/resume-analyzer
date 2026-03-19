@@ -79,7 +79,7 @@ export default function ResultsPage({ result, onReset, fromHistory = false, resu
       </div>
 
       {/* AI Suggestions */}
-      {!fromHistory && resumeText && jdText && (
+      {!fromHistory && jdText && (
         <div className="animate-fade-up stagger-5">
           <AISuggestions resumeText={resumeText} jdText={jdText} score={score} />
         </div>
