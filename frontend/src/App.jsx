@@ -101,7 +101,7 @@ function Header({ page, setPage, onReset, user, logout, theme, toggleTheme, onLo
           {/* User */}
           <div style={{ display:'flex', alignItems:'center', gap:8 }}>
             <span style={{ fontSize:12, color:'var(--text-3)' }}>{user.email?.split('@')[0]}</span>
-            <button onClick={logout} style={{
+            <button onClick={() => { if (window.confirm("Are you sure you want to logout?")) logout() }} style={{
               background:'var(--bg-3)', border:'1px solid var(--border)',
               borderRadius:7, padding:'6px 12px', color:'var(--text-2)',
               fontSize:12, cursor:'pointer'
