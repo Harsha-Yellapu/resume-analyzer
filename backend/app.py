@@ -165,7 +165,7 @@ Respond ONLY with a JSON array of exactly 5 objects. Each object must have:
 Return ONLY the JSON array, no markdown, no explanation."""
 
     try:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+        url = f"https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash-lite:generateContent?key={api_key}"
         payload = {"contents": [{"parts": [{"text": prompt}]}]}
         response = req.post(url, json=payload, timeout=30)
         data = response.json()
