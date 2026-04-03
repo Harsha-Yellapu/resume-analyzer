@@ -6,6 +6,7 @@ import UploadPage from './pages/UploadPage'
 import ResultsPage from './pages/ResultsPage'
 import HistoryPage from './pages/HistoryPage'
 import ProfilePage from './pages/ProfilePage'
+import ResumeBuilderPage from './pages/ResumeBuilderPage'
 
 function AppContent() {
   const { user, logout } = useAuth()
@@ -28,6 +29,7 @@ function AppContent() {
         {page === 'results' && result && <ResultsPage result={result} onReset={handleReset} resumeText={analysisTexts.resumeText} jdText={analysisTexts.jdText} />}
         {page === 'history' && <HistoryPage />}
         {page === 'profile' && <ProfilePage />}
+        {page === 'builder' && <ResumeBuilderPage />}
       </main>
 
       {/* Logout Confirmation Modal */}
@@ -77,7 +79,7 @@ function Header({ page, setPage, onReset, user, logout, theme, toggleTheme }) {
 
         <div style={{ display:'flex', alignItems:'center', gap:10 }}>
           <nav style={{ display:'flex', gap:4, background:'var(--bg-3)', padding:4, borderRadius:10, border:'1px solid var(--border)' }}>
-            {[['upload','Analyze'],['history','History'],['profile','Profile']].map(([id,label]) => (
+            {[['upload','Analyze'],['history','History'],['builder','Builder'],['profile','Profile']].map(([id,label]) => (
               <button key={id} onClick={() => id==='upload' ? onReset() : setPage(id)} style={{
                 background: page===id ? 'linear-gradient(135deg, var(--violet), #5B4FD6)' : 'transparent',
                 color: page===id ? 'white' : 'var(--text-3)',
